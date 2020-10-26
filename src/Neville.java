@@ -38,6 +38,26 @@ public class Neville {
                 matrix[i][j] = ((x - xs[i]) * matrix[i + 1][j - 1] - (x - xs[i + j]) * matrix[i][j - 1]) / (xs[i + j] - xs[i]);
             }
         System.out.println("f(" + x + ") = " + matrix[0][n-1]);
+        checkpij(x,n);
+    }
+
+    public static void checkpij(double x,int n) {
+        String s;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Do u want to check the value of Pi,j("+x+") ?" + "\nType 'yes' or 'no':");
+        s = input.nextLine();
+        while(!(s.equals("yes")||s.equals("no"))) {
+           System.out.println("Sorry,You can just type 'yes' or 'no'\nTry again:");
+           s = input.nextLine();
+        }
+        if(s.equals("yes")) {
+            for(int j=0;j<n;j++)
+                for(int i=0;i<n-j;i++) {
+                    System.out.println("P"+i+","+j+"("+x+") = "+matrix[i][j]);
+                }
+
+        }
+
     }
 
     public static void main(String[] args) {
