@@ -13,22 +13,36 @@ public class Neville {
         }
     }
 
-    public static boolean check(double[] array,double x) {
+
+    public static boolean check(double[] array,String x) {
+        double parsedInput;
+        try{
+            parsedInput = Double.parseDouble(x.replace(',','.'));
+        }catch(Exception e){
+            return true;
+        }
+
         for(int a=0;a<array.length;a++) {
-            if (array[a] == x)
+            if (array[a] == parsedInput)
                 return true;
         }
         return false;
     }
 
     public static double inputx() {
-        double x = xs[0];
+        String x = Double.toString(xs[0]);
+        boolean isAnyInputEntered = false;
         Scanner input = new Scanner(System.in);
+
+        System.out.println("Enter a number other than " + Arrays.toString(xs));
         while(check(xs,x)) {
-            System.out.println("Enter a double value other than " + Arrays.toString(xs) + " values");
-            x = input.nextDouble();
+            if(isAnyInputEntered)
+                System.out.println("Entered value '"+x+"' is incorrect. Try again");
+            x = input.next();
+            isAnyInputEntered = true;
         }
-        return x;
+
+        return Double.parseDouble(x.replace(',','.'));
     }
 
     public static void algorithm(int n) {
