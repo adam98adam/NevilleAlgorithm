@@ -2,9 +2,51 @@ import java.util.Scanner;
 import java.util.Arrays;
 public class Neville {
 
-    public static double[] xs = {-1.0,0.0,1.0,2.0,3.0};
-    public static double[] ys = {-4.0,-1.0,2.0,11.0,8.0};
+    public static double[] xs;
+    public static double[] ys;
     public static double[][] matrix;
+
+    public static void createarrays() {
+        int size = 0;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter a size of an array that you would like to create(minimum size is 4, maximum is 10):");
+        size = in.nextInt();
+        while((size < 4) || (size > 10)) {
+            System.out.println("Please try again, remember minimum size is 4, maxium is 10:");
+            size = in.nextInt();
+        }
+        xs = new double[size];
+        ys = new double[size];
+
+    }
+
+    public static String printelemets(double[] array,int x) {
+        String s = "";
+        for(int i=0;i<x;i++)
+            s += array[i] + " ";
+        return s;
+    }
+
+
+    public static void fillarrays() {
+        String s;
+        Scanner in = new Scanner(System.in);
+        for(int i = 0; i < xs.length; i++) {
+            System.out.print("x" + i + " = ");
+            s = in.nextLine();
+            if(i > 0) {
+                while(check(xs, i, s)) {
+                    System.out.println("Enter a number other than " + printelemets(xs,i));
+                    System.out.print("x" + i + " = ");
+                    s = in.nextLine();
+                }
+            }
+            xs[i] = Double.parseDouble(s.replace(',','.'));
+            System.out.print("y" + i + " = ");
+            s = in.nextLine();
+            ys[i] = Double.parseDouble(s.replace(',','.'));
+        }
+    }
 
     public static void creatematrix(int n) {
         matrix = new double[n][n];
@@ -13,32 +55,34 @@ public class Neville {
         }
     }
 
-    public static boolean check(double[] array,double x) {
-        for(int a=0;a<array.length;a++) {
-            if (array[a] == x)
-                return true;
-        }
-        return false;
+    public static boolean check(double[] array,int size,String x) {
+       double parsedInput;
+       try {
+           parsedInput = Double.parseDouble(x.replace(',','.'));
+       }catch(Exception e) {
+           return  true;
+       }
+
+       for(int a=0;a<size;a++) {
+           if(array[a] == parsedInput)
+               return  true;
+
+       }
+       return false;
     }
 
     public static double inputx() {
-        double x = xs[0];
+        String x = Double.toString(xs[0]);
+        boolean isAnyInputEntered = false;
         Scanner input = new Scanner(System.in);
-        while(check(xs,x)) {
-            System.out.println("Enter a double value other than " + Arrays.toString(xs) + " values");
-            x = input.nextDouble();
+        System.out.println("Enter a number other than " + Arrays.toString(xs));
+        while(check(xs,xs.length,x)) {
+            if(isAnyInputEntered)
+                System.out.println("Entered value '"+x+"' is incorrect. Try again");
+            x = input.next();
+            isAnyInputEntered = true;
         }
-        return x;
-    }
-
-    public static void algorithm(int n) {
-        double x = inputx();
-        for(int j=1;j<n;j++)
-            for(int i=0;i<n-j;i++) {
-                matrix[i][j] = ((x - xs[i]) * matrix[i + 1][j - 1] - (x - xs[i + j]) * matrix[i][j - 1]) / (xs[i + j] - xs[i]);
-            }
-        System.out.println("f(" + x + ") = " + matrix[0][n-1]);
-        checkpij(x,n);
+        return Double.parseDouble(x.replace(',','.'));
     }
 
     public static void checkpij(double x,int n) {
@@ -60,7 +104,19 @@ public class Neville {
 
     }
 
+    public static void algorithm(int n) {
+        double x = inputx();
+        for(int j=1;j<n;j++)
+            for(int i=0;i<n-j;i++) {
+                matrix[i][j] = ((x - xs[i]) * matrix[i + 1][j - 1] - (x - xs[i + j]) * matrix[i][j - 1]) / (xs[i + j] - xs[i]);
+            }
+        System.out.println("f(" + x + ") = " + matrix[0][n-1]);
+        checkpij(x,n);
+    }
+
     public static void main(String[] args) {
+        createarrays();
+        fillarrays();
         creatematrix(xs.length);
         algorithm(xs.length);
     }
