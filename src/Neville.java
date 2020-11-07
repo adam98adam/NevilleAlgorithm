@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Arrays;
 public class Neville {
@@ -6,17 +7,39 @@ public class Neville {
     public static double[] ys;
     public static double[][] matrix;
 
+
+    public static boolean ifInteger(String x){
+        try {
+            Integer.parseInt(x);
+            return true;
+        }catch(Exception e) {
+            return false;
+        }
+    }
+
+
+    public static boolean ifDouble(String x) {
+        try {
+            Double.parseDouble(x.replace(',','.'));
+            return true;
+        }catch(Exception e) {
+            return false;
+        }
+    }
+
+
+
     public static void createarrays() {
-        int size = 0;
+        String s;
         Scanner in = new Scanner(System.in);
         System.out.println("Enter a size of an array that you would like to create(minimum size is 4, maximum is 10):");
-        size = in.nextInt();
-        while((size < 4) || (size > 10)) {
-            System.out.println("Please try again, remember minimum size is 4, maxium is 10:");
-            size = in.nextInt();
+        s = in.nextLine();
+        while((!ifInteger(s)) || (Integer.parseInt(s) < 4) || (Integer.parseInt(s) > 10)) {
+            System.out.println("Entered value '" + s + "' is incorrect.Please try again, remember minimum size is 4, maximum is 10:");
+            s = in.nextLine();
         }
-        xs = new double[size];
-        ys = new double[size];
+        xs = new double[Integer.parseInt(s)];
+        ys = new double[Integer.parseInt(s)];
 
     }
 
@@ -26,6 +49,8 @@ public class Neville {
             s += array[i] + " ";
         return s;
     }
+
+
 
 
     public static void fillarrays() {
@@ -41,9 +66,19 @@ public class Neville {
                     s = in.nextLine();
                 }
             }
+            if(i == 0) {
+                while(!ifDouble(s)) {
+                    System.out.println("Entered value '" + s + "' is incorrect. Try again");
+                    s =in.nextLine();
+                }
+            }
             xs[i] = Double.parseDouble(s.replace(',','.'));
             System.out.print("y" + i + " = ");
             s = in.nextLine();
+            while(!ifDouble(s)) {
+                System.out.println("Entered value '" + s + "' is incorrect. Try again");
+                s =in.nextLine();
+            }
             ys[i] = Double.parseDouble(s.replace(',','.'));
         }
     }
@@ -55,13 +90,15 @@ public class Neville {
         }
     }
 
+
+
     public static boolean check(double[] array,int size,String x) {
-       double parsedInput;
-       try {
-           parsedInput = Double.parseDouble(x.replace(',','.'));
-       }catch(Exception e) {
-           return  true;
-       }
+        double parsedInput;
+        if(ifDouble(x)) {
+            parsedInput = Double.parseDouble(x.replace(',','.'));
+        }else {
+            return true;
+        }
 
        for(int a=0;a<size;a++) {
            if(array[a] == parsedInput)
