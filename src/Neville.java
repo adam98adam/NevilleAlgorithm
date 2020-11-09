@@ -151,10 +151,32 @@ public class Neville {
         checkpij(x,n);
     }
 
+    public static void mainfunction() {
+        String s;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Would you like to enter your own values ?");
+        s = input.nextLine();
+        while(!(s.equals("yes")||s.equals("no"))) {
+            System.out.println("Sorry,You can just type 'yes' or 'no'\nTry again:");
+            s = input.nextLine();
+        }
+        if(s.equals("yes")) {
+            createarrays();
+            fillarrays();
+            creatematrix(xs.length);
+            algorithm(xs.length);
+        }
+        else {
+            xs = new double[]{-1.0,0.0,1.0,2.0,3.0};
+            ys = new double[]{-4.0,-1.0,2.0,11.0,8.0};
+            creatematrix(xs.length);
+            algorithm(xs.length);
+
+        }
+
+    }
+
     public static void main(String[] args) {
-        createarrays();
-        fillarrays();
-        creatematrix(xs.length);
-        algorithm(xs.length);
+        mainfunction();
     }
 }
