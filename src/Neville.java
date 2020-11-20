@@ -32,10 +32,10 @@ public class Neville {
     public static void createarrays() {
         String s;
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter a size of an array that you would like to create(minimum size is 4, maximum is 10):");
+        System.out.println("Enter a size of an array that you would like to create(minimum size is 2, maximum is 10):");
         s = in.nextLine();
-        while((!ifInteger(s)) || (Integer.parseInt(s) < 4) || (Integer.parseInt(s) > 10)) {
-            System.out.println("Entered value '" + s + "' is incorrect.Please try again, remember minimum size is 4, maximum is 10:");
+        while((!ifInteger(s)) || (Integer.parseInt(s) < 2) || (Integer.parseInt(s) > 10)) {
+            System.out.println("Entered value '" + s + "' is incorrect.Please try again, remember minimum size is 2, maximum is 10:");
             s = in.nextLine();
         }
         xs = new double[Integer.parseInt(s)];
